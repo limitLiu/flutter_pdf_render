@@ -169,13 +169,13 @@ class PdfDocumentLoader extends StatefulWidget {
   /// or [PdfDocumentLoader.openData] in normal case.
   /// If you already have [PdfDocument], you can use the method.
   PdfDocumentLoader({
-    Key? key,
+    super.key,
     required this.doc,
     this.documentBuilder,
     this.pageNumber,
     this.pageBuilder,
     this.onError,
-  }) : super(key: key);
+  });
 
   @override
   PdfDocumentLoaderState createState() => PdfDocumentLoaderState();
@@ -287,8 +287,10 @@ class PdfPageView extends StatefulWidget {
   final PdfPageBuilder? pageBuilder;
 
   const PdfPageView(
-      {Key? key, this.pdfDocument, required this.pageNumber, this.pageBuilder})
-      : super(key: key);
+      {super.key,
+      this.pdfDocument,
+      required this.pageNumber,
+      this.pageBuilder});
 
   @override
   PdfPageViewState createState() => PdfPageViewState();
@@ -773,13 +775,6 @@ class PdfViewerParams {
   final PanAxis panAxis;
 
   /// See [InteractiveViewer] for more info.
-  @Deprecated(
-    'Use panAxis instead. '
-    'This feature was deprecated after flutter sdk v3.3.0-0.5.pre.',
-  )
-  final bool alignPanAxis;
-
-  /// See [InteractiveViewer] for more info.
   final EdgeInsets boundaryMargin;
 
   /// See [InteractiveViewer] for more info.
@@ -828,7 +823,6 @@ class PdfViewerParams {
       this.pageDecoration,
       this.scrollDirection = Axis.vertical,
       this.panAxis = PanAxis.free,
-      this.alignPanAxis = false,
       this.boundaryMargin = EdgeInsets.zero,
       this.maxScale = 20,
       this.minScale = 0.1,
@@ -870,7 +864,6 @@ class PdfViewerParams {
         pageDecoration: pageDecoration ?? this.pageDecoration,
         scrollDirection: scrollDirection ?? this.scrollDirection,
         panAxis: panAxis ?? this.panAxis,
-        alignPanAxis: alignPanAxis ?? this.alignPanAxis,
         boundaryMargin: boundaryMargin ?? this.boundaryMargin,
         panEnabled: panEnabled ?? this.panEnabled,
         scaleEnabled: scaleEnabled ?? this.scaleEnabled,
@@ -896,7 +889,6 @@ class PdfViewerParams {
         other.pageDecoration == pageDecoration &&
         other.scrollDirection == scrollDirection &&
         other.panAxis == panAxis &&
-        other.alignPanAxis == alignPanAxis &&
         other.boundaryMargin == boundaryMargin &&
         other.panEnabled == panEnabled &&
         other.scaleEnabled == scaleEnabled &&
@@ -918,7 +910,6 @@ class PdfViewerParams {
         pageDecoration.hashCode ^
         scrollDirection.hashCode ^
         panAxis.hashCode ^
-        alignPanAxis.hashCode ^
         boundaryMargin.hashCode ^
         panEnabled.hashCode ^
         scaleEnabled.hashCode ^
@@ -951,12 +942,12 @@ class PdfViewer extends StatefulWidget {
   Future<PdfDocument?> get _doc => _docCache.getValue();
 
   PdfViewer({
-    Key? key,
+    super.key,
     required this.doc,
     this.viewerController,
     this.params,
     this.onError,
-  }) : super(key: key);
+  });
 
   /// Open a file.
   factory PdfViewer.openFile(
@@ -1201,7 +1192,6 @@ class PdfViewerState extends State<PdfViewer>
           transformationController: _controller,
           constrained: false,
           panAxis: widget.params?.panAxis ?? PanAxis.free,
-          alignPanAxis: widget.params?.alignPanAxis ?? false,
           boundaryMargin: widget.params?.boundaryMargin ?? EdgeInsets.zero,
           minScale: widget.params?.minScale ?? 0.8,
           maxScale: widget.params?.maxScale ?? 2.5,
